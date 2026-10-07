@@ -195,8 +195,11 @@ const ld=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))??f}catch(e){retu
 let E=ld(K,[]),N=ld(KN,[]),C=Object.assign({goal:4,exam:'',user:''},ld(KC,{})),O=-1,DB=null,pt;
 if(!Array.isArray(E))E=[];if(!Array.isArray(N))N=[];
 E=E.filter(e=>e&&e.d);E.forEach(e=>{if(e.m==null)e.m=Math.round((+e.h||0)*60)});
-function push(){clearTimeout(pt);pt=setTimeout(()=>{if(DB)DB.set({j:JSON.stringify({E,C,N})}).catch(()=>{})},800)}
+const API_BASE=window.HARIKASHI_API||'';let API_TOKEN=sessionStorage.getItem('hk_api_token')||'';
+async function api(path,opt={}){const h=Object.assign({'Content-Type':'application/json'},opt.headers||{});if(API_TOKEN)h.Authorization='Bearer '+API_TOKEN;const r=await fetch(API_BASE+path,{...opt,headers:h});let j={};try{j=await r.json()}catch(e){}if(!r.ok)throw new Error(j.detail||'تعذر الاتصال بالخادم');return j}
+function push(){clearTimeout(pt);pt=setTimeout(async()=>{if(!API_TOKEN)return;try{const j=await api('/api/sync',{method:'POST',body:JSON.stringify({achievements:E,notes:N,goal:+C.goal||4,exam:C.exam||''})});if(j.achievements){E=j.achievements;N=j.notes||N;C.goal=j.user?.goal||C.goal;C.exam=j.user?.exam||C.exam;localStorage.setItem(K,JSON.stringify(E));localStorage.setItem(KN,JSON.stringify(N));localStorage.setItem(KC,JSON.stringify(C));render()}}catch(e){}},700)}
 const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}push()};
+function mergeServer(j){const byE=new Map(E.map(x=>[String(x.i),x]));(j.achievements||[]).forEach(x=>byE.set(String(x.i),x));E=[...byE.values()];const byN=new Map(N.map(x=>[String(x.i),x]));(j.notes||[]).forEach(x=>byN.set(String(x.i),x));N=[...byN.values()];if(j.user){C.goal=+j.user.goal||C.goal;C.exam=j.user.exam||C.exam}localStorage.setItem(K,JSON.stringify(E));localStorage.setItem(KN,JSON.stringify(N));localStorage.setItem(KC,JSON.stringify(C))}
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const L=(d,o)=>d.toLocaleDateString('ar-u-nu-latn',o);
 const fd=d=>L(new Date(d+'T12:00:00'),{weekday:'long',day:'numeric',month:'long'});
@@ -304,16 +307,15 @@ $('pc').onchange=()=>{const v=$('pc').value;if(v=='g')return geo();const c=CT[+v
 $('pg').onclick=geo;
 function geo(){say($('e6'),'جارٍ تحديد موقعك...');navigator.geolocation?navigator.geolocation.getCurrentPosition(p=>{LOC={n:'موقعي',la:p.coords.latitude,lo:p.coords.longitude};svl();si();say($('e6'),'تم تحديد موقعك');prayer()},()=>{si();say($('e6'),'تعذّر تحديد الموقع، اختر مدينتك من القائمة',1)},{timeout:8000}):say($('e6'),'المتصفح لا يدعم تحديد الموقع',1)}
 let fails=0,lock=0;
-async function login(){const u=$('us').value.replace(/\s/g,'').toLowerCase();
+async function login(){const u=$('us').value.replace(/\s/g,'').toLowerCase(),p=$('pin').value;
  if(Date.now()<lock)return say($('er'),'محاولات كثيرة، انتظر 30 ثانية',1);
  if(!u)return say($('er'),'اكتب اسم المستخدم',1);
- const good=u==='harikashi.com'&&await ok($('pin').value);$('pin').value='';
- if(good){fails=0;say($('er'),'');C.user=u;sv(KC,C);enter()}
- else{fails++;say($('er'),'اسم المستخدم أو كلمة المرور غير صحيحة',1);const c=document.querySelector('.lc');c.classList.remove('shk');void c.offsetWidth;c.classList.add('shk');if(fails>=5){lock=Date.now()+3e4;fails=0}}}
+ if(!/^\d{6}$/.test(p))return say($('er'),'كلمة المرور يجب أن تكون 6 أرقام',1);
+ try{const j=await api('/api/auth/login',{method:'POST',body:JSON.stringify({username:u,password:p})});API_TOKEN=j.token;sessionStorage.setItem('hk_api_token',API_TOKEN);mergeServer(j);C.user=u;localStorage.setItem(KC,JSON.stringify(C));$('pin').value='';fails=0;say($('er'),'');enter();push()}catch(e){$('pin').value='';fails++;say($('er'),'اسم المستخدم أو كلمة المرور غير صحيحة',1);const c=document.querySelector('.lc');c.classList.remove('shk');void c.offsetWidth;c.classList.add('shk');if(fails>=5){lock=Date.now()+3e4;fails=0}}}
 function enter(){$('lg').classList.add('hide');$('app').classList.remove('hide');const h=new Date().getHours();
  $('hello').textContent=(h<12?'صباح الخير':h<18?'طاب يومك':'مساء الخير')+'، HARIKASHI';tab(1)}
 $('go').onclick=login;$('pin').onkeydown=e=>{if(e.key==='Enter')login()};$('us').onkeydown=e=>{if(e.key==='Enter')$('pin').focus()};
-$('out').onclick=()=>{try{sessionStorage.removeItem('hk');localStorage.removeItem('hk')}catch(e){}$('app').classList.add('hide');$('lg').classList.remove('hide');sky()};
+$('out').onclick=()=>{try{sessionStorage.removeItem('hk');sessionStorage.removeItem('hk_api_token')}catch(e){}API_TOKEN='';$('app').classList.add('hide');$('lg').classList.remove('hide');sky()};
 function clk(){const d=new Date(),h=d.getHours(),p=n=>String(n).padStart(2,'0'),t=`${p(h%12||12)}:${p(d.getMinutes())}<small>:${p(d.getSeconds())} ${h<12?'ص':'م'}</small>`;
  $$('.ck').forEach(x=>x.innerHTML=t);$$('.cd').forEach(x=>x.textContent=L(d,{weekday:'long',day:'numeric',month:'long',year:'numeric'}));
  $$('.hj').forEach(x=>x.textContent=d.toLocaleDateString('ar-SA-u-ca-islamic-umalqura-nu-latn',{day:'numeric',month:'long',year:'numeric'}))}
