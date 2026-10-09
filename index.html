@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0b0d">
+<meta name="description" content="HARIKASHI — منظّم إنجازات التوجيهي">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<title>HARIKASHI | إنجازاتي</title>
+<style>
+:root{color-scheme:dark;--bg:#0b0b0d;--panel:#151519;--panel2:#101013;--gold:#e4bf68;--gold2:#9b7933;--text:#f7f3e9;--muted:#a6a5ad;--line:#303037;--green:#a7d5ad;--red:#e5a1a1}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#3a2d13 0,transparent 46%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+button,input,textarea,select{font:inherit}button{cursor:pointer;transition:transform .15s,filter .15s}button:active{transform:scale(.98)}button:disabled{opacity:.5;cursor:not-allowed}
+.shell{width:min(1040px,100%);margin:auto;padding:20px 14px 48px}.brand{text-align:center;padding:14px 0 22px}.brand-mark{width:58px;height:58px;border:1px solid var(--gold2);border-radius:18px;display:grid;place-items:center;margin:0 auto 12px;color:var(--gold);font-size:30px;box-shadow:0 0 35px #e4bf681c}.brand h1{margin:0;color:var(--gold);font-size:clamp(28px,6vw,42px);letter-spacing:3px}.brand p{color:var(--muted);margin:7px 0 0;font-size:14px}
+.card{background:linear-gradient(145deg,#19191e,#121215);border:1px solid var(--line);border-radius:19px;padding:18px;margin:13px 0;box-shadow:0 12px 36px #0003}.hidden{display:none!important}h2{font-size:19px;margin:0 0 14px}h3{font-size:15px;color:var(--gold);margin:0 0 8px}p{line-height:1.65}.muted{color:var(--muted);font-size:13px}.label{display:block;color:#c8c4b8;font-size:13px;margin:12px 0 6px}
+input,textarea,select{display:block;width:100%;padding:12px 13px;border:1px solid #393940;border-radius:11px;background:#0c0c0f;color:var(--text);outline:none}input:focus,textarea:focus,select:focus{border-color:var(--gold2);box-shadow:0 0 0 3px #e4bf6817}textarea{min-height:100px;resize:vertical}
+.btn{border:1px solid transparent;border-radius:11px;padding:11px 15px;background:var(--gold);color:#17130a;font-weight:750}.btn:hover{filter:brightness(1.07)}.btn.secondary{background:#26262c;border-color:#414149;color:var(--text)}.btn.ghost{background:transparent;border-color:var(--line);color:var(--muted)}.btn.delete{background:#422526;border-color:#603536;color:#ffdada}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.actions .btn{flex:0 0 auto}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}.stats{padding:14px;border-radius:15px;border:1px solid var(--line);background:#101013;min-width:0}.stats .num{font-size:clamp(23px,4vw,30px);color:var(--gold);font-weight:800;display:block;margin-top:5px;overflow-wrap:anywhere}.stats .caption{font-size:12px;color:var(--muted)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.tabs .btn.active{background:var(--gold);color:#17130a}.section{display:none}.section.active{display:block}.entry{padding:13px;border:1px solid var(--line);border-radius:13px;background:#101013;margin:9px 0}.entry p{white-space:pre-wrap;overflow-wrap:anywhere;margin:7px 0}.entry small{color:var(--muted)}.entry-top{display:flex;justify-content:space-between;align-items:start;gap:10px}.entry-top .btn{padding:6px 9px;font-size:12px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.message{margin:10px 0 0;font-size:13px;min-height:20px;color:var(--muted)}.message.ok{color:var(--green)}.message.err{color:var(--red)}.empty{text-align:center;color:var(--muted);padding:20px 8px}.divider{height:1px;background:var(--line);margin:15px 0}.quote{border-right:3px solid var(--gold2);padding:9px 13px;color:#d8d1bd;font-size:14px}.footer{text-align:center;color:#777780;font-size:12px;padding:20px}
+@media(max-width:560px){.shell{padding:12px 11px 34px}.card{padding:15px;border-radius:16px}.grid{grid-template-columns:1fr 1fr}.grid .stats:last-child{grid-column:1/-1}.form-grid{grid-template-columns:1fr}.brand{padding-top:10px}.brand-mark{width:50px;height:50px;border-radius:15px}.tabs .btn{flex:1;padding:10px 8px;font-size:13px}}
+</style>
+</head>
+<body>
+<main class="shell">
+<header class="brand">
+ <div class="brand-mark" aria-hidden="true">H</div>
+ <h1>HARIKASHI</h1><p>نظّم يومك، وثّق إنجازك، وواصل التقدّم</p>
+</header>
+
+<section id="loginView" class="card">
+ <h2>ابدأ رحلتك الدراسية</h2>
+ <p class="muted">أنشئ حسابًا خاصًا بك أو سجّل الدخول لمتابعة إنجازاتك.</p>
+ <label class="label" for="username">اسم المستخدم</label><input id="username" autocomplete="username" placeholder="3 أحرف أو أكثر" maxlength="40">
+ <label class="label" for="password">رمز الدخول (6 أرقام)</label><input id="password" type="password" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="current-password" placeholder="••••••">
+ <div class="actions"><button class="btn" id="loginBtn">تسجيل الدخول</button><button class="btn secondary" id="registerBtn">إنشاء حساب جديد</button></div>
+ <p id="loginMsg" class="message" role="status"></p>
+ <div class="divider"></div><p class="quote">﴿وَأَنْ لَيْسَ لِلْإِنْسَانِ إِلَّا مَا سَعَى﴾</p>
+</section>
+
+<section id="appView" class="hidden">
+ <div class="card row"><div><h2 id="welcome" style="margin-bottom:5px">لوحة الإنجاز</h2><span id="today" class="muted"></span></div><button class="btn secondary" id="logoutBtn">خروج</button></div>
+ <div class="grid">
+  <div class="stats"><span class="caption">أيام مسجّلة</span><strong class="num" id="daysCount">0</strong></div>
+  <div class="stats"><span class="caption">مجموع الساعات</span><strong class="num" id="hoursCount">0</strong></div>
+  <div class="stats"><span class="caption">الإنجازات</span><strong class="num" id="achCount">0</strong></div>
+ </div>
+ <nav class="tabs" aria-label="أقسام الموقع">
+  <button class="btn active" data-tab="daily">إنجازاتي اليومية</button>
+  <button class="btn secondary" data-tab="subjects">ملاحظات المواد</button>
+ </nav>
+ <section id="daily" class="section active">
+  <div class="card">
+   <h2>إضافة إنجاز يومي</h2>
+   <div class="form-grid"><div><label class="label" for="studyDate">التاريخ</label><input type="date" id="studyDate"></div><div><label class="label" for="studyHours">ساعات الدراسة</label><input type="number" id="studyHours" min="0" max="24" step=".25" value="1"></div></div>
+   <label class="label" for="achievement">ماذا أنجزت اليوم؟</label><textarea id="achievement" maxlength="5000" placeholder="اكتب الدرس الذي أنهيته أو الأسئلة التي حللتها..."></textarea>
+   <div class="actions"><button class="btn" id="saveAchievement">حفظ الإنجاز</button></div><p id="saveMsg" class="message"></p>
+  </div>
+  <div class="card"><div class="row"><h2 style="margin:0">سجل الإنجازات</h2><span class="muted">محفوظة في حسابك</span></div><div id="achievementList"><div class="empty">سجّل الدخول لعرض إنجازاتك.</div></div></div>
+ </section>
+ <section id="subjects" class="section">
+  <div class="card">
+   <h2>ملاحظات المواد</h2>
+   <label class="label" for="subject">اختر المادة</label><select id="subject"><option>اللغة العربية</option><option>اللغة الإنجليزية</option><option>الأحياء</option><option>الكيمياء</option><option>الفيزياء</option><option>التربية الإسلامية</option><option>الرياضيات</option><option>التكنولوجيا</option></select>
+   <label class="label" for="noteText">الملاحظة</label><textarea id="noteText" maxlength="5000" placeholder="اكتب نقطة تحتاج إلى مراجعة أو فكرة مهمة..."></textarea>
+   <div class="actions"><button class="btn" id="saveNote">حفظ الملاحظة</button></div><p id="noteMsg" class="message"></p>
+  </div>
+  <div class="card"><div class="row"><h2 style="margin:0">دفتر الملاحظات</h2><span class="muted">حسب المادة</span></div><div id="notesList"><div class="empty">لا توجد ملاحظات بعد.</div></div></div>
+ </section>
+</section>
+<footer class="footer">HARIKASHI · مساحة دراستك وإنجازاتك</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let token=sessionStorage.getItem('hk_token')||'', achievements=[], notes=[];
+$('today').textContent=new Date().toLocaleDateString('ar',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+$('studyDate').value=new Date().toISOString().slice(0,10);
+async function api(path,options={}){const headers={'Content-Type':'application/json',...(options.headers||{})};if(token)headers.Authorization='Bearer '+token;let res;try{res=await fetch('/api'+path,{...options,headers})}catch(e){throw new Error('تعذّر الاتصال بالخادم. تحقق من اتصال الإنترنت وحالة النشر.')}const data=await res.json().catch(()=>({detail:'حدث خطأ غير متوقع'}));if(!res.ok)throw new Error(data.detail||'تعذّر تنفيذ الطلب.');return data}
+function msg(id,text,type=''){const el=$(id);el.textContent=text;el.className='message '+type}
+async function auth(mode){const username=$('username').value.trim(),password=$('password').value.trim();if(username.length<3){msg('loginMsg','اسم المستخدم يجب أن يكون 3 أحرف على الأقل.','err');return}if(!/^\d{6}$/.test(password)){msg('loginMsg','رمز الدخول يجب أن يتكون من 6 أرقام بالضبط.','err');return}try{const d=await api('/auth/'+mode,{method:'POST',body:JSON.stringify({username,password})});token=d.access_token;sessionStorage.setItem('hk_token',token);await loadApp()}catch(e){msg('loginMsg',e.message,'err')}}
+$('loginBtn').onclick=()=>auth('login');$('registerBtn').onclick=()=>auth('register');
+$('logoutBtn').onclick=()=>{token='';sessionStorage.removeItem('hk_token');$('appView').classList.add('hidden');$('loginView').classList.remove('hidden');msg('loginMsg','تم تسجيل الخروج.','ok')};
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-tab]').forEach(x=>{x.classList.toggle('active',x===b);x.classList.toggle('secondary',x!==b)});document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===b.dataset.tab))}));
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){const days=new Set(achievements.map(x=>x.date));$('daysCount').textContent=days.size;$('hoursCount').textContent=achievements.reduce((n,x)=>n+Number(x.hours||0),0).toLocaleString('ar',{maximumFractionDigits:2});$('achCount').textContent=achievements.length;
+$('achievementList').innerHTML=achievements.slice().reverse().map(x=>`<article class="entry"><div class="entry-top"><div><h3>${esc(x.date)} · ${Number(x.hours)} ساعة</h3><small>إنجاز يومي</small></div><button class="btn delete" onclick="deleteItem('achievements',${x.id})">حذف</button></div><p>${esc(x.text)}</p></article>`).join('')||'<div class="empty">لا توجد إنجازات بعد. ابدأ بتسجيل أول إنجاز!</div>';
+$('notesList').innerHTML=notes.slice().reverse().map(x=>`<article class="entry"><div class="entry-top"><div><h3>${esc(x.subject)}</h3><small>${esc(String(x.created_at||'').slice(0,10))}</small></div><button class="btn delete" onclick="deleteItem('notes',${x.id})">حذف</button></div><p>${esc(x.text)}</p></article>`).join('')||'<div class="empty">دفتر الملاحظات فارغ حاليًا.</div>'}
+async function loadApp(){try{const d=await api('/data');achievements=d.achievements||[];notes=d.notes||[];$('welcome').textContent='أهلًا بك، '+d.username;$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');render()}catch(e){token='';sessionStorage.removeItem('hk_token');$('loginView').classList.remove('hidden');$('appView').classList.add('hidden');msg('loginMsg','سجّل الدخول للمتابعة. '+e.message,'err')}}
+$('saveAchievement').onclick=async()=>{const text=$('achievement').value.trim(),date=$('studyDate').value,hours=Number($('studyHours').value);if(!text||!date||!Number.isFinite(hours)||hours<0||hours>24){msg('saveMsg','أكمل البيانات وتأكد أن الساعات بين 0 و24.','err');return}try{await api('/achievements',{method:'POST',body:JSON.stringify({date,hours,text})});$('achievement').value='';msg('saveMsg','تم حفظ الإنجاز في قاعدة البيانات.','ok');await loadApp()}catch(e){msg('saveMsg',e.message,'err')}};
+$('saveNote').onclick=async()=>{const text=$('noteText').value.trim();if(!text){msg('noteMsg','اكتب الملاحظة أولًا.','err');return}try{await api('/notes',{method:'POST',body:JSON.stringify({subject:$('subject').value,text})});$('noteText').value='';msg('noteMsg','تم حفظ الملاحظة في قاعدة البيانات.','ok');await loadApp()}catch(e){msg('noteMsg',e.message,'err')}};
+async function deleteItem(kind,id){if(!confirm('هل تريد حذف هذا السجل نهائيًا؟'))return;try{await api('/'+kind+'/'+id,{method:'DELETE'});await loadApp()}catch(e){alert(e.message)}}
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+if(token)loadApp();
+</script>
+</body></html>
